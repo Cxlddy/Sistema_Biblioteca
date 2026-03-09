@@ -56,24 +56,26 @@ class Usuarios():
         print("Livro emprestado com sucesso!")
         return True
 
+
+    #função devolver livros
     def devolver_livros(self, usuario):
-        if usuario["Emprestimos"]:
+        if usuario["Emprestimos"]:  #verifica se o usuário tem empréstimos
             for i, livro in enumerate(usuario["Emprestimos"]):
-                print(f"{i + 1} - {livro["titulo"]}")
+                print(f"{i + 1} - {livro["titulo"]}") #se tiver, vai mostrar o índice da lista adicionando um para não ficar estranho para o usuário
 
             print("\nEscolha o número do livro que deseja devolver: ")
             numero = int(input())
 
-            livro = usuario["Emprestimos"][numero - 1]
+            livro = usuario["Emprestimos"][numero - 1] #retorna para o número normal do índice do livro
 
             livro["disponível"] = True
-            usuario["Emprestimos"].remove(livro)
+            usuario["Emprestimos"].remove(livro) #após a escolha do usuário
         else:
             print("\nNenhum livro emprestado")
 
     def ver_emprestimos(self, usuario):
-        if usuario["Emprestimos"]:
+        if usuario["Emprestimos"]:  #se usuario tem emprestimos
             for i, livro in enumerate(usuario["Emprestimos"]):
-                print(f"{i + 1} - {livro["titulo"]}")
+                print(f"{i + 1} - {livro["titulo"]}") #mostrará todos no console, adicionando 1 no número do índice para melhor vizualicação
         else:
             print("\nVocê não possui nenhum empréstimo pendente")

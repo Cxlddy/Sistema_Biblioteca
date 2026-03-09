@@ -3,25 +3,27 @@ from core.usuarios import Usuarios
 from core.livros import Livros
 
 
-biblioteca = Livros()
-usuarios = Usuarios()
+biblioteca = Livros() #chama as classes
+usuarios = Usuarios() #''
 
+#para manipulação ideal do usuário atual, definimos como None antes para a variável existir
 usuario_atual = None
 
-ctk.set_appearance_mode("Dark")
-ctk.set_default_color_theme("dark-blue")
+ctk.set_appearance_mode("Dark") #aparência padrão de todas as páginas
+ctk.set_default_color_theme("dark-blue") #mesma coisa
 
 
 # menu do adm
 
 def menu_adm():
 
-    def abrir_add():
+    def abrir_add(): #funcao para abrir a página de adicionar livros
         pagina_adicionar_livro()
 
-    def abrir_lista():
+    def abrir_lista(): #mesma coisa, mas para a de lista
         pagina_listar_livros()
-
+    
+    #a partir de agora é apenas as coisas da página, que são itens totalmente genéricos do customTKinter
     janela = ctk.CTk()
     janela.geometry("600x400")
     janela.title("Menu Administração")
@@ -37,7 +39,7 @@ def menu_adm():
     botao2 = ctk.CTkButton(janela, text="Listar Livros", command=abrir_lista)
     botao2.grid(row=2, column=0, pady=10)
 
-    botao3 = ctk.CTkButton(janela, text="Remover Livro", command=pagina_remover_livro)
+    botao3 = ctk.CTkButton(janela, text="Remover Livro", command=pagina_remover_livro) #aqui houve uma quebra de padrão, será corrigido depois
     botao3.grid(row=3, column=0, pady=10)
 
     janela.mainloop()
@@ -75,13 +77,13 @@ def menu_usuario():
 
 def login():
 
-    def enviar_login():
-        global usuario_atual
+    def enviar_login(): #função de enviar o login
+        global usuario_atual #variável usuario atual como global
 
-        email = entrada_email.get()
+        email = entrada_email.get() #pega os dados do input
         senha = entrada_senha.get()
 
-        resultado = usuarios.logar_usuario(email, senha)
+        resultado = usuarios.logar_usuario(email, senha) #define variável de resultado do login
 
         if resultado:
             usuario_atual = resultado
@@ -90,13 +92,13 @@ def login():
 
             janela.after(1500, janela.destroy)
 
-            if resultado["tipo"] == "admin":
+            if resultado["tipo"] == "admin": #se for adm, chamará o menu do adm
                 janela.after(100, menu_adm)
             else:
-                janela.after(100, menu_usuario)
+                janela.after(100, menu_usuario) #se for usuario comum, chamara o menu do mesmo
 
         else:
-            caixa.delete("0.0", "end")
+            caixa.delete("0.0", "end") #se estiver errado, vai tentar denovo
             caixa.insert("end", "Email ou senha incorretos")
 
     janela = ctk.CTk()
@@ -128,17 +130,17 @@ def login():
 
 def cadastro():
 
-    def cadastrar():
+    def cadastrar(): #função de cadastrar
 
-        email = entrada_email.get()
+        email = entrada_email.get() #pega os dados do login
         senha = entrada_senha.get()
 
-        usuarios.cadastrar_usuario(email, senha)
+        usuarios.cadastrar_usuario(email, senha) #chama funcao da classe usuarios
 
         caixa.delete("0.0", "end")
-        caixa.insert("end", "Usuário cadastrado com sucesso!")
+        caixa.insert("end", "Usuário cadastrado com sucesso!") 
         janela.destroy()
-        login()
+        login() #fecha a janela de cadastro e depois abre a de login para o usuario inserir as informacoes cadastradas
 
     janela = ctk.CTk()
     janela.geometry("350x300")
@@ -169,10 +171,10 @@ def cadastro():
 
 def menu_inicial():
 
-    def abrir_login():
+    def abrir_login(): #funcao que apenas chama a pagina de login
         login()
 
-    def abrir_cadastro():
+    def abrir_cadastro(): #funcao que apenas chama a pagina de cadastro
         cadastro()
 
     janela = ctk.CTk()
@@ -203,7 +205,7 @@ def pagina_listar_livros():
     caixa = ctk.CTkTextbox(janela)
     caixa.pack(fill="both", expand=True)
 
-    for i, livro in enumerate(biblioteca.livros):
+    for i, livro in enumerate(biblioteca.livros): #mostrará todos os livros no sistema, por padrão existem 4
         status = "Disponível" if livro["disponível"] else "Indisponível"
         caixa.insert("end", f"{i+1} - {livro['titulo']} ({status})\n")
 
@@ -212,7 +214,7 @@ def pagina_listar_livros():
 
 def pagina_adicionar_livro():
 
-    def adicionar():
+    def adicionar(): #função de adicionar livro que adiciona o livro na lista dos mesmos
 
         nome = entrada.get()
         biblioteca.adicionar_livro(nome)
@@ -234,11 +236,11 @@ def pagina_adicionar_livro():
     janela.mainloop()
 
 
-def pagina_emprestimo():
+def pagina_emprestimo(): #pagina de emprestimo de livros
 
     def emprestar():
 
-        numero = int(entrada.get()) - 1
+        numero = int(entrada.get()) - 1 #pede variavel do numero, tira um para manipular corretamente com o índice
         livro = biblioteca.livros[numero]
 
         sucesso = usuarios.emprestar_livros(usuario_atual, livro)
@@ -254,7 +256,7 @@ def pagina_emprestimo():
     caixa = ctk.CTkTextbox(janela)
     caixa.pack()
 
-    for i, livro in enumerate(biblioteca.livros):
+    for i, livro in enumerate(biblioteca.livros): #para mostrar todos os livros, e se estão disponíveis ou não
         status = "Disponível" if livro["disponível"] else "Indisponível"
         caixa.insert("end", f"{i+1} - {livro['titulo']} ({status})\n")
 
@@ -275,7 +277,7 @@ def pagina_ver_emprestimos():
     caixa = ctk.CTkTextbox(janela)
     caixa.pack(fill="both", expand=True)
 
-    if usuario_atual["Emprestimos"]:
+    if usuario_atual["Emprestimos"]: #mostra os empréstimos
         for livro in usuario_atual["Emprestimos"]:
             caixa.insert("end", f"{livro['titulo']}\n")
     else:
@@ -288,7 +290,7 @@ def pagina_devolver_livro():
 
     def devolver():
 
-        numero = int(entrada.get()) - 1
+        numero = int(entrada.get()) - 1 #mesma coisa da pagina de pedir empréstimos
         livro = usuario_atual["Emprestimos"][numero]
 
         livro["disponível"] = True
@@ -302,7 +304,7 @@ def pagina_devolver_livro():
     caixa = ctk.CTkTextbox(janela)
     caixa.pack()
 
-    for i, livro in enumerate(usuario_atual["Emprestimos"]):
+    for i, livro in enumerate(usuario_atual["Emprestimos"]): #mostrar os livros emprestados pelo usuario
         caixa.insert("end", f"{i+1} - {livro['titulo']}\n")
 
     entrada = ctk.CTkEntry(janela, placeholder_text="Número do livro")
