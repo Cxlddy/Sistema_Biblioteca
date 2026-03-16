@@ -1,0 +1,32 @@
+{
+    "livros": [
+        {
+            "titulo": "1984",
+            "disponível": true
+        },
+        {
+            "titulo": "Dom Quixote",
+            "disponível": true
+        },
+        {
+            "titulo": "A Megera Domada",
+            "disponível": true
+        },
+        {
+            "titulo": "A revolução dos bichos",
+            "disponível": true
+        },
+        {
+            "titulo": "A metamorfose",
+            "disponível": true
+        }
+    ],
+    "usuarios": [
+        {
+            "email": "admin",
+            "senha": "administracao123",
+            "tipo": "admin",
+            "Emprestimos": []
+        }
+    ]
+}

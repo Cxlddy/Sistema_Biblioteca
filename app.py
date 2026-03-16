@@ -1,6 +1,6 @@
 import customtkinter as ctk
-from core.usuarios import Usuarios
-from core.livros import Livros
+from src.usuarios import Usuarios
+from src.livros import Livros
 
 
 biblioteca = Livros() #chama as classes
