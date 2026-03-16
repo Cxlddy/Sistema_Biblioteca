@@ -27,6 +27,12 @@
             "senha": "administracao123",
             "tipo": "admin",
             "Emprestimos": []
+        },
+        {
+            "email": "teste",
+            "senha": "1",
+            "tipo": "usuario",
+            "Emprestimos": []
         }
     ]
 }
